@@ -4,7 +4,7 @@
 
 void perform_single_menu_run();
 
-int recieve_user_input();
+int receive_user_input();
 
 void respond_to_user_input(int input);
 
@@ -17,7 +17,7 @@ void start_menu() {
 
 void perform_single_menu_run() {
     print_start_menu();
-    int user_input = recieve_user_input();
+    int user_input = receive_user_input();
     respond_to_user_input(user_input);
 }
 
@@ -25,7 +25,7 @@ void respond_to_user_input(int user_input) {
     
 }
 
-int recieve_user_input() {
+int receive_user_input() {
     return 0;
 }
 

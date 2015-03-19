@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include "menu/main_menu/MainMenu.h"
+#include "services/game/GameService.h"
 
 int main() {
-    start_menu();
+    printf("DEBUG starting main");
+    //start_menu();
     return 0;
 }

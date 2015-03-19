@@ -3,7 +3,4 @@
 
 void start_menu();
 
-enum NEW_GAME 0,
-
-
 #endif
