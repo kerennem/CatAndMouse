@@ -1,0 +1,40 @@
+#include "MainMenu.h"
+#include <stdio.h>
+#include <stdbool.h>
+
+void perform_single_menu_run();
+
+int recieve_user_input();
+
+void respond_to_user_input(int input);
+
+void start_menu() {
+    bool continue_playing = true;
+    while (continue_playing) {
+        perform_single_menu_run();
+    }
+}
+
+void perform_single_menu_run() {
+    print_start_menu();
+    int user_input = recieve_user_input();
+    respond_to_user_input(user_input);
+}
+
+void respond_to_user_input(int user_input) {
+    
+}
+
+int recieve_user_input() {
+    return 0;
+}
+
+void print_start_menu(){
+    printf("CAT AND MOUSE\n\n");
+    printf("choose one of the folowing:\n\n");
+    printf("new_game\n");
+    printf("load_game\n");
+    printf("create_game\n");
+    printf("edit_game\n");
+    printf("quit\n");
+}
