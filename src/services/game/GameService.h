@@ -2,6 +2,7 @@
 #define _CATANDMOUSE_GAME_SERVICE_H_
 
 #include "../../common/CommonStructs.h"
+#include "../world_builder/WorldsService.h"
 
 #define BOARD_SIZE 7;
 
@@ -23,8 +24,7 @@ struct gameParams {
     int cat_machine_difficulty;
     int mouse_machine_difficulty;
     int turns_bound;
-    struct boardCoordinate cat_position;
-    struct boardCoordinate mouse_position;
+    struct world world;
 };
 
 struct gameBoard {
@@ -33,11 +33,7 @@ struct gameBoard {
     int turns_left;
 };
 
-enum boardCell {
-    EMPTY_CELL, OBSTACLE_CELL, MOUSE_CELL, CAT_CELL, CHEESE_CELL
-};
-
-int initNewGame(struct gameParams);
+int initNewGame(struct gameParams game_params);
 
 int setCatParams(enum playerType player_type, int difficulty);
 

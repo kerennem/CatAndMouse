@@ -5,4 +5,8 @@ enum logicalError {
     MOVEMENT_ERROR
 };
 
+enum boardCell {
+    EMPTY_CELL, OBSTACLE_CELL, MOUSE_CELL, CAT_CELL, CHEESE_CELL
+};
+
 #endif //_CATANDMOUSE_COMMONENUMS_H_

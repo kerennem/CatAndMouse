@@ -3,7 +3,8 @@
 #include "services/game/GameService.h"
 
 int main() {
-    printf("DEBUG starting main");
+    printf("DEBUG starting main\n");
+
     //start_menu();
     return 0;
 }
