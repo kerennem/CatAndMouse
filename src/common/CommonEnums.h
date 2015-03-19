@@ -1,0 +1,8 @@
+#ifndef _CATANDMOUSE_COMMONENUMS_H_
+#define _CATANDMOUSE_COMMONENUMS_H_
+
+enum logicalError {
+    MOVEMENT_ERROR
+};
+
+#endif //_CATANDMOUSE_COMMONENUMS_H_
