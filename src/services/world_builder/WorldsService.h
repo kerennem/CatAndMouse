@@ -5,6 +5,7 @@
 
 struct world {
     int board[7][7];
+    // TODO These are for convenience (this data should already be in board). Probably should be replaced with some service functions.
     struct boardCoordinate cat_coordinates;
     struct boardCoordinate mouse_coordinates;
     struct boardCoordinate cheese_coordinates;

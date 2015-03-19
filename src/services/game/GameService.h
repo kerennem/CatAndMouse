@@ -2,6 +2,7 @@
 #define _CATANDMOUSE_GAME_SERVICE_H_
 
 #include "../../common/CommonStructs.h"
+#include "../../common/CommonEnums.h"
 #include "../world_builder/WorldsService.h"
 
 #define BOARD_SIZE 7;

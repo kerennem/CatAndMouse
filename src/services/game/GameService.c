@@ -1,13 +1,14 @@
 #include "GameService.h"
+#include <stdbool.h>
 
-struct gameParams current_game_settings;
-struct gameBoard current_game_board;
-struct boardCoordinate current_cat_coordinates;
-struct boardCoordinate current_mouse_coordinates;
+static struct gameParams current_game_settings;
+static struct gameBoard* current_game_board;
+static struct boardCoordinate current_cat_coordinates;
+static struct boardCoordinate current_mouse_coordinates;
 
 bool isMoveValid(enum movementDirection movement_direction);
 
-void updateBoardCells(enum movementDirection *movement_direction);
+void updateBoardCells(enum movementDirection movement_direction);
 
 void updateOldCell();
 
@@ -28,34 +29,40 @@ enum boardStatus calculateBoardStatus();
 /* *********** Implementation **************/
 
 int initNewGame(struct gameParams game_params) {
-    current_game_params = game_params;
+    current_game_settings = game_params;
     current_cat_coordinates = game_params.world.cat_coordinates;
     current_mouse_coordinates = game_params.world.mouse_coordinates;
     int game_board[7][7] = {0};
-    for (int i = 0; i < 7; ++i) {
-        for (int j = 0; j < 7; ++j) {
+    int i, j;
+    for (i = 0; i < 7; ++i) {
+        for (j = 0; j < 7; ++j) {
             game_board[i][j] = game_params.world.board[i][j];
         }
     }
-    current_game_board = {.board = game_board, .current_turn = MOUSE, .turns_left = game_params.turns_bound};
+
+    *current_game_board = {
+            .board = game_board,
+            .current_turn = MOUSE,
+            .turns_left = game_params.turns_bound
+    };
     return 0;
 }
 
 int setCatParams(enum playerType player_type, int difficulty) {
-    current_game_params.cat_player_type = player_type;
+    current_game_settings.cat_player_type = player_type;
     if (player_type == MACHINE) {
-        current_game_params.cat_machine_difficulty = difficulty;
+        current_game_settings.cat_machine_difficulty = difficulty;
     }
 }
 
 int setMouseParams(enum playerType player_type, int difficulty) {
-    current_game_params.mouse_player_type = player_type;
+    current_game_settings.mouse_player_type = player_type;
     if (player_type == MACHINE) {
-        current_game_params.mouse_machine_difficulty = difficulty;
+        current_game_settings.mouse_machine_difficulty = difficulty;
     }
 }
 
-struct currentGameBoard getCurrentGameBoard() {
+struct gameBoard getCurrentGameBoard() {
     return current_game_board;
 }
 
@@ -133,7 +140,12 @@ void updateBoardCells(enum movementDirection movement_direction) {
 }
 
 void updateOldCell() {
-    struct boardCoordinate playerCoordinate = getCurrentPlayerCoordinate();
+    struct boardCoordinate playerCoordinate;
+    if (current_game_board.current_turn == CAT) {
+        playerCoordinate = current_cat_coordinates;
+    } else {
+        playerCoordinate = current_mouse_coordinates;
+    }
     current_game_board.board[playerCoordinate.x][playerCoordinate.y] = EMPTY_CELL;
 }
 
