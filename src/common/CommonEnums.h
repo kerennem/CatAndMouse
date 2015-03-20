@@ -1,6 +1,10 @@
 #ifndef _CATANDMOUSE_COMMONENUMS_H_
 #define _CATANDMOUSE_COMMONENUMS_H_
 
+enum playerName {
+    CAT, MOUSE
+};
+
 enum logicalError {
     MOVEMENT_ERROR
 };

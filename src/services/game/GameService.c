@@ -2,7 +2,7 @@
 #include <stdbool.h>
 
 static struct gameParams current_game_settings;
-static struct gameBoard* current_game_board;
+static struct gameBoard current_game_board;
 static struct boardCoordinate current_cat_coordinates;
 static struct boardCoordinate current_mouse_coordinates;
 
@@ -29,25 +29,26 @@ enum boardStatus calculateBoardStatus();
 /* *********** Implementation **************/
 
 int initNewGame(struct gameParams game_params) {
+    printf("DEBUG GameService::initNewGame()");
     current_game_settings = game_params;
     current_cat_coordinates = game_params.world.cat_coordinates;
     current_mouse_coordinates = game_params.world.mouse_coordinates;
-    int game_board[7][7] = {0};
-    int i, j;
-    for (i = 0; i < 7; ++i) {
-        for (j = 0; j < 7; ++j) {
+    int game_board[7][7] = {EMPTY_CELL};
+    for (int i = 0; i < 7; ++i) {
+        for (int j = 0; j < 7; ++j) {
             game_board[i][j] = game_params.world.board[i][j];
         }
     }
 
-    *current_game_board = {
+    current_game_board = (struct gameBoard) {
             .board = game_board,
-            .current_turn = MOUSE,
+            .current_turn = game_params.world.first_move,
             .turns_left = game_params.turns_bound
     };
     return 0;
 }
 
+// Maybe should be replaced with setHumanCat/setMachineMouse...
 int setCatParams(enum playerType player_type, int difficulty) {
     current_game_settings.cat_player_type = player_type;
     if (player_type == MACHINE) {
@@ -66,11 +67,8 @@ struct gameBoard getCurrentGameBoard() {
     return current_game_board;
 }
 
-enum boardStatus {
-    GAME_CONTINUES, INVALID, CAT_WINS, MOUSE_WINS, DRAW
-};
-
 int performMove(enum movementDirection movement_direction) {
+    printf("DEBUG GameService::performMove()");
     if (current_game_board.turns_left > 0 && isMoveValid(movement_direction)) {
         updateBoardCells(movement_direction);
         updateCurrentPlayerCoordinates(movement_direction);
@@ -80,19 +78,19 @@ int performMove(enum movementDirection movement_direction) {
         return calculateBoardStatus();
 
     } else {
-        return MOVEMENT_ERROR;
+        return INVALID;
     }
 }
 
 enum boardStatus calculateBoardStatus() {
-    if (current_game_board.turns_left == 0) {
-        return DRAW;
-    }
     if (isCatNearMouse()) {
         return CAT_WINS;
     }
     if (isMouseNearCheese()) {
         return MOUSE_WINS;
+    }
+    if (current_game_board.turns_left == 0) {
+        return DRAW;
     }
 
     return GAME_CONTINUES;
@@ -107,15 +105,13 @@ bool isMouseNearCheese() {
 }
 
 bool areTwoCoordinatesAdjacent(struct boardCoordinate coord1, struct boardCoordinate coord2) {
-    if (coord1.x != coord2.x && coord1.y != coord2.y) {
-        return false;
-    }
     if (coord1.x == coord2.x) {
         if (coord1.y == coord2.y + 1 || coord1.y == coord2.y - 1) return true;
     }
     if (coord1.y == coord2.y) {
         if (coord1.x == coord2.x + 1 || coord1.x == coord2.x - 1) return true;
     }
+    return false;
 }
 
 void updateCurrentPlayerCoordinates(enum movementDirection movement_direction) {
@@ -129,9 +125,9 @@ void updateCurrentPlayerCoordinates(enum movementDirection movement_direction) {
 
 bool isMoveValid(enum movementDirection movement_direction) {
     struct boardCoordinate newCoordinate = getNewCoordinate(movement_direction);
-    return (current_game_board.board[newCoordinate.x][newCoordinate.y] != OBSTACLE_CELL) &&
-            (newCoordinate.x >= 0) && (newCoordinate.x < 7)
-            && (newCoordinate.y >= 0) && (newCoordinate.y < 7);
+    return  (newCoordinate.x >= 0) && (newCoordinate.x < 7)
+            && (newCoordinate.y >= 0) && (newCoordinate.y < 7)
+            && (current_game_board.board[newCoordinate.x][newCoordinate.y] != OBSTACLE_CELL);
 }
 
 void updateBoardCells(enum movementDirection movement_direction) {
@@ -151,7 +147,11 @@ void updateOldCell() {
 
 void updateNewCell(enum movementDirection movement_direction) {
     struct boardCoordinate new_board_coordinate = getNewCoordinate(movement_direction);
-    current_game_board.board[new_board_coordinate.x][new_board_coordinate.y] = current_game_board.current_turn;
+    if (current_game_board.current_turn == CAT) {
+        current_game_board.board[new_board_coordinate.x][new_board_coordinate.y] = CAT_CELL;
+    } else {
+        current_game_board.board[new_board_coordinate.x][new_board_coordinate.y] = MOUSE_CELL;
+    }
 }
 
 struct boardCoordinate getNewCoordinate(enum movementDirection movement_direction) {
@@ -167,13 +167,13 @@ struct boardCoordinate getNewCoordinate(enum movementDirection movement_directio
             new_board_coordinate.x--;
             break;
         case UP:
-            new_board_coordinate.y++;
+            new_board_coordinate.y--;
             break;
         case RIGHT:
             new_board_coordinate.x++;
             break;
         case DOWN:
-            new_board_coordinate.y--;
+            new_board_coordinate.y++;
             break;
     }
     return new_board_coordinate;

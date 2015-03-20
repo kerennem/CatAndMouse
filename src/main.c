@@ -19,7 +19,7 @@ int main() {
             .y = 4
     };
 
-    int board[7][7] = {0};
+    int board[7][7] = {EMPTY_CELL};
     board[0][0] = CAT_CELL;
     board[6][0] = MOUSE_CELL;
     board[5][4] = CHEESE_CELL;
@@ -28,7 +28,8 @@ int main() {
             .cheese_coordinates = cheeseCoord,
             .mouse_coordinates = mouseCoord,
             .cat_coordinates = catCoord,
-            .board = board
+            .board = board,
+            .first_move = MOUSE
     };
     struct gameParams game_params = {
             .cat_player_type = HUMAN,
@@ -40,5 +41,8 @@ int main() {
     };
 
     initNewGame(game_params);
+
+    performMove(DOWN);
+
     return 0;
 }

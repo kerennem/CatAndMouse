@@ -5,11 +5,7 @@
 #include "../../common/CommonEnums.h"
 #include "../world_builder/WorldsService.h"
 
-#define BOARD_SIZE 7;
-
-enum playerName {
-    CAT, MOUSE
-};
+#define BOARD_SIZE 7
 
 enum playerType {
     HUMAN, MACHINE
@@ -17,6 +13,10 @@ enum playerType {
 
 enum movementDirection {
     LEFT, UP, RIGHT, DOWN
+};
+
+enum boardStatus {
+    GAME_CONTINUES, INVALID, CAT_WINS, MOUSE_WINS, DRAW
 };
 
 struct gameParams {
@@ -29,7 +29,7 @@ struct gameParams {
 };
 
 struct gameBoard {
-    int board[7][7]; // TODO find out why i can't replace 7 with BOARD_SIZE
+    int board[BOARD_SIZE][BOARD_SIZE];
     enum playerName current_turn;
     int turns_left;
 };
