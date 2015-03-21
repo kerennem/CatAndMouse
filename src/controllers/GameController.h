@@ -12,7 +12,7 @@ ControllerReturnStatus_t goToMainMenu();
 ControllerReturnStatus_t quitProgram();
 
 BoardStatus_t performMoveToDirection(MovementDirection_t movement_direction);
-ControllerReturnStatus_t performMoveToCoordinate(BoardCoordinate_t selected_coordinates);
+BoardStatus_t performMoveToCoordinate(BoardCoordinate_t selected_coordinates);
 
 GameBoard_t retrieveCurrentGameBoard();
 

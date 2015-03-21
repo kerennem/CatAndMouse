@@ -26,7 +26,7 @@ BoardStatus_t performMoveToDirection(MovementDirection_t movement_direction) {
     return performMove(movement_direction);
 }
 
-ControllerReturnStatus_t performMoveToCoordinate(BoardCoordinate_t selected_coordinates) {
+BoardStatus_t performMoveToCoordinate(BoardCoordinate_t selected_coordinates) {
     GameBoard_t game_board = getCurrentGameBoard();
     Board board = game_board.board;
     BoardCoordinate_t current_player_coordinates;
@@ -43,7 +43,7 @@ ControllerReturnStatus_t performMoveToCoordinate(BoardCoordinate_t selected_coor
         } else if (selected_coordinates.y == current_player_coordinates.y - 1) {
             movement_direction = DOWN;
         } else {
-            return CONTROLLER_INVALID_MOVE;
+            return INVALID;
         }
     } else if (selected_coordinates.y == current_player_coordinates.y) {
         if (selected_coordinates.x == current_player_coordinates.x + 1) {
@@ -51,7 +51,7 @@ ControllerReturnStatus_t performMoveToCoordinate(BoardCoordinate_t selected_coor
         } else if (selected_coordinates.x == current_player_coordinates.x - 1) {
             movement_direction = LEFT;
         } else {
-            return CONTROLLER_INVALID_MOVE;
+            return INVALID;
         }
     }
 
