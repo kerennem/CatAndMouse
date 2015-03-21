@@ -59,6 +59,14 @@ int setMouseParams(PlayerType_t player_type, int difficulty) {
     }
 }
 
+BoardCoordinate_t getCatCoordinates() {
+    return current_cat_coordinates;
+}
+
+BoardCoordinate_t getMouseCoordinates() {
+    return current_mouse_coordinates;
+}
+
 GameBoard_t getCurrentGameBoard() {
     return current_game_board;
 }

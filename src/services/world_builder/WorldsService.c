@@ -17,7 +17,7 @@ Board getBoardFrom(World_t world) {
     return dst_board;
 }
 
-ReturnStatus_t setCatCoordinate(World_t *world, BoardCoordinate_t coord) {
+ServiceReturnStatus_t setCatCoordinate(World_t *world, BoardCoordinate_t coord) {
     if (coord.x >= 0 && coord.x < BOARD_SIZE
             && coord.y >= 0 && coord.y < BOARD_SIZE) {
         BoardCoordinate_t current_cat_coordinates = world->cat_coordinates;
@@ -32,7 +32,7 @@ ReturnStatus_t setCatCoordinate(World_t *world, BoardCoordinate_t coord) {
     }
 }
 
-ReturnStatus_t setMouseCoordinate(World_t *world, BoardCoordinate_t coord) {
+ServiceReturnStatus_t setMouseCoordinate(World_t *world, BoardCoordinate_t coord) {
     if (coord.x >= 0 && coord.x < BOARD_SIZE
             && coord.y >= 0 && coord.y < BOARD_SIZE) {
         BoardCoordinate_t current_mouse_coordinates = world->mouse_coordinates;
@@ -47,7 +47,7 @@ ReturnStatus_t setMouseCoordinate(World_t *world, BoardCoordinate_t coord) {
     }
 }
 
-ReturnStatus_t setCheeseCoordinate(World_t *world, BoardCoordinate_t coord) {
+ServiceReturnStatus_t setCheeseCoordinate(World_t *world, BoardCoordinate_t coord) {
     if (coord.x >= 0 && coord.x < BOARD_SIZE
             && coord.y >= 0 && coord.y < BOARD_SIZE) {
         BoardCoordinate_t current_cheese_coordinates = world->cheese_coordinates;
@@ -61,7 +61,7 @@ ReturnStatus_t setCheeseCoordinate(World_t *world, BoardCoordinate_t coord) {
     }
 }
 
-ReturnStatus_t setFirstMove(World_t *world, PlayerName_t player_name) {
+ServiceReturnStatus_t setFirstMove(World_t *world, PlayerName_t player_name) {
     world->first_move = player_name;
 }
 

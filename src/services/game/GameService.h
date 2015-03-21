@@ -7,18 +7,6 @@
 
 #define BOARD_SIZE 7
 
-typedef enum PlayerType {
-    HUMAN, MACHINE
-} PlayerType_t;
-
-typedef enum MovementDirection {
-    LEFT, UP, RIGHT, DOWN
-} MovementDirection_t;
-
-typedef enum BoardStatus {
-    GAME_CONTINUES, INVALID, CAT_WINS, MOUSE_WINS, DRAW
-} BoardStatus_t;
-
 typedef struct GameParams {
     PlayerType_t cat_player_type;
     PlayerType_t mouse_player_type;
@@ -39,6 +27,10 @@ int initNewGame(GameParams_t game_params);
 int setCatParams(PlayerType_t player_type, int difficulty);
 
 int setMouseParams(PlayerType_t player_type, int difficulty);
+
+BoardCoordinate_t getCatCoordinates();
+
+BoardCoordinate_t getMouseCoordinates();
 
 GameBoard_t getCurrentGameBoard();
 

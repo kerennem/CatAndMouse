@@ -15,13 +15,13 @@ typedef struct World {
 
 Board getBoardFrom(World_t world);
 
-ReturnStatus_t setCatCoordinate(World_t *world, BoardCoordinate_t coord);
+ServiceReturnStatus_t setCatCoordinate(World_t *world, BoardCoordinate_t coord);
 
-ReturnStatus_t setMouseCoordinate(World_t *world, BoardCoordinate_t coord);
+ServiceReturnStatus_t setMouseCoordinate(World_t *world, BoardCoordinate_t coord);
 
-ReturnStatus_t setCheeseCoordinate(World_t *world, BoardCoordinate_t coord);
+ServiceReturnStatus_t setCheeseCoordinate(World_t *world, BoardCoordinate_t coord);
 
-ReturnStatus_t setFirstMove(World_t *world, PlayerName_t player_name);
+ServiceReturnStatus_t setFirstMove(World_t *world, PlayerName_t player_name);
 
 bool validateWorld(World_t *world_t);
 
