@@ -7,41 +7,41 @@
 
 #define BOARD_SIZE 7
 
-enum playerType {
+typedef enum PlayerType {
     HUMAN, MACHINE
-};
+} PlayerType_t;
 
-enum movementDirection {
+typedef enum MovementDirection {
     LEFT, UP, RIGHT, DOWN
-};
+} MovementDirection_t;
 
-enum boardStatus {
+typedef enum BoardStatus {
     GAME_CONTINUES, INVALID, CAT_WINS, MOUSE_WINS, DRAW
-};
+} BoardStatus_t;
 
-struct gameParams {
-    enum playerType cat_player_type;
-    enum playerType mouse_player_type;
+typedef struct GameParams {
+    PlayerType_t cat_player_type;
+    PlayerType_t mouse_player_type;
     int cat_machine_difficulty;
     int mouse_machine_difficulty;
     int turns_bound;
-    struct world world;
-};
+    struct World world;
+} GameParams_t;
 
-struct gameBoard {
-    int board[BOARD_SIZE][BOARD_SIZE];
-    enum playerName current_turn;
+typedef struct GameBoard {
+    BoardCell_t** board;
+    PlayerName_t current_turn;
     int turns_left;
-};
+} GameBoard_t;
 
-int initNewGame(struct gameParams game_params);
+int initNewGame(GameParams_t game_params);
 
-int setCatParams(enum playerType player_type, int difficulty);
+int setCatParams(PlayerType_t player_type, int difficulty);
 
-int setMouseParams(enum playerType player_type, int difficulty);
+int setMouseParams(PlayerType_t player_type, int difficulty);
 
-struct gameBoard getCurrentGameBoard();
+GameBoard_t getCurrentGameBoard();
 
-int performMove(enum movementDirection movement_direction);
+BoardStatus_t performMove(MovementDirection_t movement_direction);
 
 #endif //_CATANDMOUSE_GAME_SERVICE_H_

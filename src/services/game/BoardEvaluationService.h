@@ -4,6 +4,6 @@
 #include "GameService.h"
 #include "../../common/MiniMax.h"
 
-int evaluateBoard(struct gameBoard current_game_board);
+int evaluateBoard(GameBoard_t current_game_board);
 
 #endif //_CATANDMOUSE_BOARDEVALUATIONSERVICE_H_

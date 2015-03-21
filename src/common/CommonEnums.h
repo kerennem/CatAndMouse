@@ -1,16 +1,16 @@
 #ifndef _CATANDMOUSE_COMMONENUMS_H_
 #define _CATANDMOUSE_COMMONENUMS_H_
 
-enum playerName {
+typedef enum PlayerName {
     CAT, MOUSE
-};
+} PlayerName_t;
 
-enum logicalError {
+typedef enum LogicalError {
     MOVEMENT_ERROR
-};
+} LogicalError_t;
 
-enum boardCell {
+typedef enum BoardCell {
     EMPTY_CELL, OBSTACLE_CELL, MOUSE_CELL, CAT_CELL, CHEESE_CELL
-};
+} BoardCell_t;
 
 #endif //_CATANDMOUSE_COMMONENUMS_H_
