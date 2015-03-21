@@ -29,7 +29,7 @@ typedef struct GameParams {
 } GameParams_t;
 
 typedef struct GameBoard {
-    BoardCell_t** board;
+    Board board;
     PlayerName_t current_turn;
     int turns_left;
 } GameBoard_t;

@@ -21,11 +21,7 @@ int main() {
             .y = 4
     };
 
-    /*BoardCell_t** board = (BoardCell_t**) malloc(sizeof(BoardCell_t*) * BOARD_SIZE);
-    for (int i = 0; i < BOARD_SIZE; ++i) {
-        board[i] = (BoardCell_t*) malloc(sizeof(BoardCell_t) * BOARD_SIZE);
-    }*/
-    BoardCell_t **board = make2dArray(BOARD_SIZE, BOARD_SIZE, sizeof(BoardCell_t *), sizeof(BoardCell_t));
+    Board board = make2dArray(BOARD_SIZE, BOARD_SIZE, sizeof(BoardCell_t *), sizeof(BoardCell_t));
     for (int j = 0; j < BOARD_SIZE; ++j) {
         for (int k = 0; k < BOARD_SIZE; ++k) {
             board[j][k] = EMPTY_CELL;
@@ -80,7 +76,7 @@ int main() {
 }
 
 // This is for debugging purposes
-void printBoard(BoardCell_t** board) {
+void printBoard(Board board) {
     for (int i = 0; i < BOARD_SIZE; ++i) {
         for (int j = 0; j < BOARD_SIZE; ++j) {
             char cell_rep;

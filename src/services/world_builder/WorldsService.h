@@ -5,7 +5,7 @@
 #include "../../common/CommonEnums.h"
 
 typedef struct World {
-    BoardCell_t** board;
+    Board board;
     // TODO These are for convenience (this data should already be in board). Probably should be replaced with some service functions.
     BoardCoordinate_t cat_coordinates;
     BoardCoordinate_t mouse_coordinates;
@@ -13,6 +13,17 @@ typedef struct World {
     PlayerName_t first_move;
 } World_t;
 
-BoardCell_t** getBoardFrom(World_t world);
+Board getBoardFrom(World_t world);
+
+ReturnStatus_t setCatCoordinate(World_t *world, BoardCoordinate_t coord);
+
+ReturnStatus_t setMouseCoordinate(World_t *world, BoardCoordinate_t coord);
+
+ReturnStatus_t setCheeseCoordinate(World_t *world, BoardCoordinate_t coord);
+
+ReturnStatus_t setFirstMove(World_t *world, PlayerName_t player_name);
+
+bool validateWorld(World_t *world_t);
+
 
 #endif //_CATANDMOUSE_WORLDSSERVICE_H_

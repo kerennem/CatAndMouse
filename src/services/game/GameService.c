@@ -33,7 +33,7 @@ int initNewGame(GameParams_t game_params) {
     current_game_settings = game_params;
     current_cat_coordinates = game_params.world.cat_coordinates;
     current_mouse_coordinates = game_params.world.mouse_coordinates;
-    BoardCell_t** game_board;
+    Board game_board;
     game_board = getBoardFrom(game_params.world);
 
     current_game_board = (GameBoard_t) {
