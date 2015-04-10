@@ -1,6 +1,8 @@
-#include "GameService.h"
-#include <stdbool.h>
+#include "GameModel.h"
+#include "../common/Constants.h"
+#include <stdio.h>
 
+// TODO shouldn't stdbool.h be included?
 static GameParams_t current_game_settings;
 static GameBoard_t current_game_board;
 static BoardCoordinate_t current_cat_coordinates;
@@ -28,33 +30,43 @@ BoardStatus_t calculateBoardStatus();
 
 /* *********** Implementation **************/
 
+/**
+* Initialize variables with the parameters of a new game
+*/
 int initNewGame(GameParams_t game_params) {
+    // TODO remove DEBUG
     printf("DEBUG GameService::initNewGame()\n");
     current_game_settings = game_params;
     current_cat_coordinates = game_params.world.cat_coordinates;
     current_mouse_coordinates = game_params.world.mouse_coordinates;
     Board game_board;
-    game_board = getBoardFrom(game_params.world);
+    game_board = getBoardFrom(game_params.world); // This board will be updated during the game
 
     current_game_board = (GameBoard_t) {
             .board = game_board,
             .current_turn = game_params.world.first_move,
-            .turns_left = game_params.turns_bound
+            .turns_left = game_params.world.turns_bound
     };
     return 0;
 }
 
-// Maybe should be replaced with setHumanCat/setMachineMouse...
+// TODO Maybe should be replaced with setHumanCat/setMachineMouse...
+/**
+* Sets cat's type and difficulty if it is machine
+*/
 int setCatParams(PlayerType_t player_type, int difficulty) {
     current_game_settings.cat_player_type = player_type;
-    if (player_type == MACHINE) {
+    if (player_type == MACHINE) { // difficulty needs to be set only if cat is machine
         current_game_settings.cat_machine_difficulty = difficulty;
     }
 }
 
+/**
+* Sets mouse's type and difficulty if it is machine
+*/
 int setMouseParams(PlayerType_t player_type, int difficulty) {
     current_game_settings.mouse_player_type = player_type;
-    if (player_type == MACHINE) {
+    if (player_type == MACHINE) { // difficulty needs to be set only if cat is machine
         current_game_settings.mouse_machine_difficulty = difficulty;
     }
 }
@@ -71,20 +83,27 @@ GameBoard_t getCurrentGameBoard() {
     return current_game_board;
 }
 
+/**
+* performs move if it is valid
+*/
 BoardStatus_t performMove(MovementDirection_t movement_direction) {
+    // TODO remove debug
     printf("DEBUG GameService::performMove()\n");
-    if (current_game_board.turns_left > 0 && isMoveValid(movement_direction)) {
+    if (isMoveValid(movement_direction)) {
         updateBoardCells(movement_direction);
         updateCurrentPlayerCoordinates(movement_direction);
-        current_game_board.current_turn = (current_game_board.current_turn + 1) % 2;
+        current_game_board.current_turn = (current_game_board.current_turn + 1) % 2; // changes between cat and mouse
         current_game_board.turns_left--;
 
-        return calculateBoardStatus();
+        return calculateBoardStatus(); // checks whether this move has ended the game
     } else {
         return INVALID;
     }
 }
 
+/*
+* checks if game has ended, and if so, with what result
+*/
 BoardStatus_t calculateBoardStatus() {
     if (isCatNearMouse()) {
         return CAT_WINS;
@@ -117,6 +136,9 @@ bool areTwoCoordinatesAdjacent(BoardCoordinate_t coord1, BoardCoordinate_t coord
     return false;
 }
 
+/**
+* updates current player's coordinates after he made a move
+*/
 void updateCurrentPlayerCoordinates(MovementDirection_t movement_direction) {
     BoardCoordinate_t current_player_new_coordinate = getNewCoordinate(movement_direction);
     if (current_game_board.current_turn == CAT) {
@@ -126,10 +148,13 @@ void updateCurrentPlayerCoordinates(MovementDirection_t movement_direction) {
     }
 }
 
+/**
+* checks whether a move is within the limits of the board and isn't interrupted by an obstacle
+*/
 bool isMoveValid(MovementDirection_t movement_direction) {
     BoardCoordinate_t newCoordinate = getNewCoordinate(movement_direction);
-    return  (newCoordinate.x >= 0) && (newCoordinate.x < 7)
-            && (newCoordinate.y >= 0) && (newCoordinate.y < 7)
+    return  (newCoordinate.x >= 0) && (newCoordinate.x < BOARD_SIZE)
+            && (newCoordinate.y >= 0) && (newCoordinate.y < BOARD_SIZE)
             && (current_game_board.board[newCoordinate.x][newCoordinate.y] != OBSTACLE_CELL);
 }
 
@@ -138,6 +163,9 @@ void updateBoardCells(MovementDirection_t movement_direction) {
     updateNewCell(movement_direction);
 }
 
+/**
+* updates the cell the player has moved from to EMPTY_CELL
+*/
 void updateOldCell() {
     BoardCoordinate_t playerCoordinate;
     if (current_game_board.current_turn == CAT) {
@@ -148,6 +176,9 @@ void updateOldCell() {
     current_game_board.board[playerCoordinate.x][playerCoordinate.y] = EMPTY_CELL;
 }
 
+/**
+* updates the cell the player has moved into to CAT_CELL/MOUSE_CELL (according to which one of them moved)
+*/
 void updateNewCell(MovementDirection_t movement_direction) {
     BoardCoordinate_t new_board_coordinate = getNewCoordinate(movement_direction);
     if (current_game_board.current_turn == CAT) {
@@ -157,6 +188,9 @@ void updateNewCell(MovementDirection_t movement_direction) {
     }
 }
 
+/**
+* returns the new coordinates of the current player after he made a move
+*/
 BoardCoordinate_t getNewCoordinate(MovementDirection_t movement_direction) {
     BoardCoordinate_t new_board_coordinate;
     if (current_game_board.current_turn == CAT) {
@@ -169,11 +203,11 @@ BoardCoordinate_t getNewCoordinate(MovementDirection_t movement_direction) {
         case LEFT:
             new_board_coordinate.x--;
             break;
-        case UP:
-            new_board_coordinate.y--;
-            break;
         case RIGHT:
             new_board_coordinate.x++;
+            break;
+        case UP:
+            new_board_coordinate.y--;
             break;
         case DOWN:
             new_board_coordinate.y++;

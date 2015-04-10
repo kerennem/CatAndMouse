@@ -1,12 +1,12 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "WorldsService.h"
-#include "../game/GameService.h"
 #include "../../common/ArrayUtils.h"
+#include "../../common/Constants.h"
 
 Board getBoardFrom(World_t world) {
     Board src_board = world.board;
-    Board dst_board = make2dArray(BOARD_SIZE, BOARD_SIZE, sizeof(BoardCell_t *), sizeof(BoardCell_t));
+    Board dst_board = (Board) make2dArray(BOARD_SIZE, BOARD_SIZE, sizeof(BoardCell_t *), sizeof(BoardCell_t));
 
     for (int i = 0; i < BOARD_SIZE; ++i) {
         for (int j = 0; j < BOARD_SIZE; ++j) {

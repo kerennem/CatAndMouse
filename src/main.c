@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "menu/main_menu/MainMenu.h"
-#include "services/game/GameService.c"
-#include "common/CommonEnums.h"
 #include "common/ArrayUtils.h"
+#include "common/Constants.h"
+#include "services/world_builder/WorldReaderService.h"
+
+void printBoard(Board board);
 
 int main() {
     printf("DEBUG starting main\n");
 
-    BoardCoordinate_t catCoord = {
+    /*BoardCoordinate_t catCoord = {
             .x = 0,
             .y = 0
     };
@@ -71,6 +72,12 @@ int main() {
         }
     }
     printBoard(getCurrentGameBoard().board);
+*/
+    World_t *world = (World_t *) malloc(sizeof(World_t));
+
+    readWorldWithId(0, world);
+
+    printBoard(world->board);
 
     return 0;
 }

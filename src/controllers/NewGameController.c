@@ -1,5 +1,7 @@
 #include "NewGameController.h"
 
+// TODO implement
+
 ControllerReturnStatus_t setCatPlayerType(PlayerType_t player_type) {
     return CONTROLLER_OK;
 }

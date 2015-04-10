@@ -1,6 +1,6 @@
 #include "../common/CommonEnums.h"
 #include "../common/CommonStructs.h"
-#include "../services/game/GameService.h"
+#include "../models/GameModel.h"
 
 #ifndef _CATANDMOUSE_GAMECONTROLLER_H_
 #define _CATANDMOUSE_GAMECONTROLLER_H_
@@ -12,7 +12,7 @@ ControllerReturnStatus_t goToMainMenu();
 ControllerReturnStatus_t quitProgram();
 
 BoardStatus_t performMoveToDirection(MovementDirection_t movement_direction);
-BoardStatus_t performMoveToCoordinate(BoardCoordinate_t selected_coordinates);
+ControllerReturnStatus_t performMoveToCoordinate(BoardCoordinate_t selected_coordinates);
 
 GameBoard_t retrieveCurrentGameBoard();
 

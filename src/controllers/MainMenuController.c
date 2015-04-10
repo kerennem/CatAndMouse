@@ -1,5 +1,7 @@
 #include "MainMenuController.h"
 
+// TODO implement
+
 ControllerReturnStatus_t new_game() {
     return CONTROLLER_OK;
 }

@@ -1,6 +1,10 @@
 #include "WorldCreatorController.h"
-#include "../models/WorldCreatorModel.h"
+#include "../models/WorldModel.h"
 
+/**
+* Checks whether all necessary pieces are on the board and saves the world if so.
+* Otherwize, returns appropriate controller return status.
+*/
 ControllerReturnStatus_t saveWorld() {
     ControllerReturnStatus_t res;
     switch(isWorldValid()) {
@@ -16,6 +20,8 @@ ControllerReturnStatus_t saveWorld() {
     
     return res;
 }
+
+// TODO implement
 
 ControllerReturnStatus_t goToMainMenuFromWorldCreator() {
     return CONTROLLER_OK;
